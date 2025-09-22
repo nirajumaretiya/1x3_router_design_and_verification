@@ -3,12 +3,12 @@ module router_sync(clock,resetn,detect_add,full_0,full_1,full_2,data_in,empty_0,
 input clock,resetn,detect_add,write_enb_reg,read_enb_0,read_enb_1,read_enb_2,full_0,full_1,full_2,empty_0,empty_1,empty_2;
 input [1:0] data_in;
 
-output vld_out_0,vld_out_1,vld_out_2;
+output vld_out_0,vld_out_1,vld_out_2,soft_reset_0,soft_reset_1,soft_reset_2;
 output reg [2:0] write_enb;
 output reg fifo_full;
 
 reg [1:0] temp;
-reg [5:0] counter0,counter1,counter2;
+reg [5:0] counter0,counter1,counter2; 
 reg soft_reset_0,soft_reset_1,soft_reset_2;
 
 always @(temp or full_0 or full_1 or full_2) begin
@@ -42,7 +42,7 @@ assign vld_out_0=~empty_0;
 assign vld_out_1=~empty_1;
 assign vld_out_2=~empty_2;
 
-always @(posedge clk) begin
+always @(posedge clock) begin
     if(~resetn) begin 
         counter0<=0;
         soft_reset_0<=0;
@@ -54,7 +54,7 @@ always @(posedge clk) begin
     end
 end
 
-always @(posedge clk) begin
+always @(posedge clock) begin
     if(~resetn) begin 
         counter1<=0;
         soft_reset_1<=0;
@@ -66,7 +66,7 @@ always @(posedge clk) begin
     end 
 end
 
-always @(posedge clk) begin
+always @(posedge clock) begin
     if(~resetn) begin 
         counter2<=0;
         soft_reset_2<=0;
