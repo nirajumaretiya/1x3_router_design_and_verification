@@ -10,7 +10,7 @@ output empty,full;
 reg [4:0] wr_ptr,rd_ptr;
 reg [6:0] counter;
 reg [WIDTH-1:0] mem[DEPTH-1:0];
-reg temp;
+reg temp;   
 
 assign empty = (wr_ptr == rd_ptr);
 assign full = ((wr_ptr[4]!=rd_ptr[4]) && (wr_ptr[3:0] == rd_ptr[3:0]));
