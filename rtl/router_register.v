@@ -8,28 +8,39 @@ output reg [7:0] dout;
 reg [7:0] full_state_byte,internal_parity,header,packet_parity;
 
 
-// dout
-always @(posedge clock) begin
-    if(~resetn) dout<=0;
-    else begin 
-        if(~(detect_add)) begin
-            if(~(lfd_state)) begin
-                if(~(ld_state && ~fifo_full)) begin
-                    if(~(ld_state && fifo_full)) begin
-                    if(~(laf_state)) dout<=dout;
-                    else dout<=full_state_byte;
-                    end
-                    else dout<=dout;
-                end
-                else dout<=dout;
-                end
-                else dout<=data_in;
-        end
-            else dout<=header;
-        end
-    else dout<=dout;
+//dout
+always@(posedge clock)
+begin
+  if(!resetn)
+  dout<=0;
+  else
+  begin
+   if(~(detect_add))
+         begin
+           if(~(lfd_state))
+             begin
+               if(~(ld_state && ~fifo_full))
+                  begin
+                     if(~(ld_state && fifo_full))
+                        begin 
+                          if(~(laf_state))
+                            dout<=dout;
+                          else
+                            dout<=full_state_byte;
+                        end
+                       else
+                         dout<=dout;
+                   end
+                 else
+                   dout<=data_in;
+             end
+           else
+              dout<=header;
+         end
+       else
+          dout<=dout; 
+  end
 end
-
 // fifo_full_byte
 always @(posedge clock) begin
     if(~resetn) full_state_byte<=0;
@@ -75,7 +86,7 @@ always @(posedge clock) begin
     if(~resetn) parity_done<=0;
     else begin
         if(detect_add) parity_done<=0;
-        else if( (ld_state && ~(plt_valid) && ~fifo_full) || (laf_state && (low_packet_valid) && ~parity_done)) parity_done<=1'b1;
+        else if( (ld_state && ~(pkt_vld) && ~fifo_full) || (laf_state && (low_packet_valid) && ~parity_done)) parity_done<=1'b1;
         else parity_done<=parity_done;
     end
 end
