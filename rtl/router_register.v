@@ -41,6 +41,7 @@ begin
           dout<=dout; 
   end
 end
+
 // fifo_full_byte
 always @(posedge clock) begin
     if(~resetn) full_state_byte<=0;
