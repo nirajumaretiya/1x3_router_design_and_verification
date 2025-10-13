@@ -107,7 +107,7 @@ always @(posedge clock) begin
             if(internal_parity!=packet_parity) error<=1'b0;
             else error<=1'b1;
         end
-        else error=1'b0;
+        else error<=1'b0;
     end
 end
 
